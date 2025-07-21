@@ -1,12 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import Stripe from 'stripe';
 import { ConfigService } from '@nestjs/config';
+import { Order, OrderDocument } from 'src/order/schemas/order.schema';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+
 
 @Injectable()
 export class PaymentService {
   private stripe: Stripe;
-
-  constructor(private configService: ConfigService) {
+  
+  constructor(
+    private configService: ConfigService,
+    @InjectModel(Order.name) private orderModel: Model<OrderDocument> // ✅ direct model
+  ) {
     this.stripe = new Stripe(this.configService.get<string>('STRIPE_SECRET_KEY')!, {
       apiVersion: '2025-06-30.basil',
     });
@@ -39,7 +46,16 @@ export class PaymentService {
     return { url: session.url };
   }
 
-  async handleWebhook(rawBody: Buffer, signature: string) {
-    
+   async getPaymentStatus(orderId: string) {
+    const order = await this.orderModel.findById(orderId);
+  if (!order) {
+      throw new NotFoundException('Order not found');
+    }
+    return {
+      orderId: order._id,
+      status: order.status,
+    };
   }
+
 }
+

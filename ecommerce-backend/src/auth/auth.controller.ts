@@ -23,6 +23,11 @@ export class AuthController {
   registerVendor(@Body() body: any) {
     return this.authService.registerVendor(body);
   }
+  @Post('register/admin')
+  registerAdmin(@Body() body: any) {
+    return this.authService.registerAdmin(body)
+  }
+  
   @Post('login')
   login(@Body() body: any) {
     return this.authService.login(body.email, body.password);

@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Product, ProductDocument } from './product.schema';
-import { CreateProductDto } from 'src/dto/create-product.dto';
-import { UpdateProductDto } from 'src/dto/update-product.dto';
 import { Model, Types } from 'mongoose';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductsService {
@@ -13,10 +13,18 @@ export class ProductsService {
   ) {}
 
   // Create
-  async createProduct(dto: CreateProductDto): Promise<ProductDocument> {
-    const created = new this.productModel(dto);
-    return created.save();
-  }
+async createProduct(dto: CreateProductDto): Promise<ProductDocument> {
+  const created = new this.productModel({
+    ...dto,
+    category: dto.category ? new Types.ObjectId(dto.category) : undefined,
+    brand: new Types.ObjectId(dto.brand),
+    vendor: new Types.ObjectId(dto.vendor), 
+    tags: dto.tags?.map(tag => new Types.ObjectId(tag)),
+  });
+
+  return created.save();
+}
+
 
   async findAll(filters: {
   category?: string;

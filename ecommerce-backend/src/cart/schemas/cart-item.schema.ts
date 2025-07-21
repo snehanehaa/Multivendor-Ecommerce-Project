@@ -10,6 +10,8 @@ export class CartItem {
 
   @Prop({ type: Number, required: true, default: 1 })
   quantity: number;
+
+  
 }
 
 export const CartItemSchema = SchemaFactory.createForClass(CartItem);

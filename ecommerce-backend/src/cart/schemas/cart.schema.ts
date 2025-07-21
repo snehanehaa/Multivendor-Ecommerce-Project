@@ -17,6 +17,15 @@ export class Cart {
   items: CartItem[];
 
   _id?: Types.ObjectId;
+
+  @Prop({ type: Object })
+  shippingAddress: {
+    street?: string;
+    city?: string;
+    state?: string;
+    zip?: string;
+    country?: string;
+  };
 }
 
 export const CartSchema = SchemaFactory.createForClass(Cart);

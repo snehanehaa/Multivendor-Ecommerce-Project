@@ -34,7 +34,7 @@ export class VendorService {
      async getAllVendor(): Promise<VendorDocument[]>{
         return this.vendormodel.find().populate('user', 'email role is approved')
      }
- // 5. Approve/reject vendor (admin)
+ // 5. Approve/reject vendor
      async approveVendor(id: string, status: 'approved' | 'rejected'): Promise<VendorDocument> {
     const vendor = await this.vendormodel.findByIdAndUpdate(
       id,

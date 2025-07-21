@@ -3,18 +3,22 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
-import { MailService } from 'mail/mail.service';
+
 
 @Injectable()
 export class AuthService {
     constructor (
         private readonly usersService: UsersService,
         private readonly jwtservice: JwtService,
-         private readonly mailService: MailService
+         
     ) {}
 //register a new customer
     async registerCustomer(data: any){
         return this.usersService.createUser({ ...data, role: 'customer'})
+    }
+//register a new admin
+    async registerAdmin(data: any){
+      return this.usersService.createUser({ ...data, role: 'admin'})
     }
 //register a new vendor
     async registerVendor(data: any){
@@ -51,7 +55,6 @@ export class AuthService {
       throw new NotFoundException('User not found');
     }
    const token = await this.usersService.generateEmailVerificationToken(userId);
-   await this.mailService.sendVerificationEmail(user.email, token);
     return { message: 'Verification token sent' };
    }
 //verify email

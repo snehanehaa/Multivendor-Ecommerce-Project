@@ -1,7 +1,7 @@
-import { IsString, IsNumber, IsOptional, IsBoolean, IsArray, IsMongoId, ValidateNested } from 'class-validator';
+import { IsString, IsNumber, IsOptional, IsBoolean, IsArray, IsMongoId, ValidateNested, IsNotEmpty } from 'class-validator';
 import { Type } from 'class-transformer';
 
-class ProductVariationDto {
+export class ProductVariationDto {
   @IsOptional()
   @IsString()
   color?: string;
@@ -28,13 +28,14 @@ export class CreateProductDto {
   @IsNumber()
   price: number;
   
-  @IsOptional()
+  @IsNotEmpty()
   @IsMongoId()
-  category?: string;
+  category: string;
 
   @IsMongoId()
   vendor?: string;
-
+  
+  @IsNotEmpty()
   @IsMongoId()
   brand: string;
 

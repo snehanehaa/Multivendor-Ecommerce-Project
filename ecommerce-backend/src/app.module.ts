@@ -17,6 +17,12 @@ import { TagModule } from './tag/tag.module';
 import { CartModule } from './cart/cart.module';
 import { WishlistModule } from './wishlist/wishlist.module';
 import { PaymentModule } from './payment/payment.module';
+import { OrderModule } from './order/order.module';
+import { AddressModule } from './address/address.module';
+import { ReviewModule } from './review/review.module';
+import { DisputeModule } from './dispute/dispute.module';
+import { NotificationModule } from './notification/notification.module';
+import { ReportsModule } from './report/report.module';
 
 @Module({
   imports: [
@@ -39,6 +45,12 @@ import { PaymentModule } from './payment/payment.module';
     CartModule,
     WishlistModule,
     PaymentModule,
+    OrderModule,
+    AddressModule,
+    ReviewModule,
+    DisputeModule,
+    ReportsModule,
+    NotificationModule,
   ],
   controllers: [AppController, AdminController],
   providers: [AppService],
